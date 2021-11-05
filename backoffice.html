@@ -125,7 +125,7 @@
                     </div>
 
                     <button id="add" class="btn btn-outline-primary d-inline-block" type="submit">Add</button>
-                    <button id="send" class="btn btn-outline-primary d-none" type="submit">Send</button>
+                    <button id="send" class="btn btn-outline-primary " type="submit">Send</button>
                     <button id="del" class="btn btn-outline-warning">Delete</button>
 
                 </form>
@@ -199,27 +199,14 @@
         let url = "https://striveschool-api.herokuapp.com/api/movies"
 
         window.onload = () => {
-
-
             if (idItem) {
                 title.innerText += " edit film"
                 btnAdd.classList.toggle("d-none")
 
-
-
-
-
-
             } else {
                 title.innerText += " add new film"
                 btnSend.classList.add("d-none")
-
-
-
-
-
             }
-
         }
 
         const newFilm = {
@@ -233,47 +220,48 @@
             const res = await fetch(url + idItem, {
                 "method": "DELETE",
                 headers: {
-                    Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ - KPY - ZzrDFCnx24XJdM4Cko ",
+                    Authorization: "",
                     'Content-Type': 'application/json'
                 }
             })
         }
 
+        // PUT section  
 
 
+        btnSend.onclick = async(item) => {
 
-
-
-
-        const sendItem = async(item) => {
             const res = await fetch(url + idItem, {
                 "method": "PUT",
                 body: JSON.stringify(newFilm),
                 headers: {
-                    Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ - KPY - ZzrDFCnx24XJdM4Cko ",
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ-KPY-ZzrDFCnx24XJdM4Cko",
                     'Content-Type': 'application/json'
                 }
             })
         }
 
 
+        // POST section
 
-
-        const addItem = async() => {
-            const res = await fetch(url, )
-            try {
-                if (res.ok) {
-                    const data = await res.json()
-                    return data
-                }
-
-            } catch (error) {
-                console.log("error")
+        btnAdd.onclick = async() => {
+            const newFilm = {
+                name: document.getElementById("name").value,
+                description: document.getElementById("description").value,
+                category: document.getElementById("category").value,
+                imageUrl: document.getElementById("urlImage").value
             }
+            const res = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ-KPY-ZzrDFCnx24XJdM4Cko",
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newFilm)
+            })
+            const element = await res.json()
+            alert = ("Film correctly added")
         }
-
-
-        //if Url doesn't contain id
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
