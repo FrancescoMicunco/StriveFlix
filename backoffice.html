@@ -87,7 +87,51 @@
         </div>
     </nav>
     <!-- end navbar -->
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-6">
+                <h2 id="title" class="text-light">BACKOFFICE --- </h2>
+                <form class="was-validated">
+                    <div class="mb-3">
+                        <label for="name">Title</label>
+                        <textarea class="form-control is-invalid" id="name" placeholder="Required Title" required></textarea>
+                        <div class="invalid-feedback">
+                            Please enter a title here.
+                        </div>
+                    </div>
 
+                    <div class="mb-3">
+                        <label for="description">Description</label>
+                        <textarea class="form-control is-invalid" id="description" placeholder="Required Description" required></textarea>
+                        <div class="invalid-feedback">
+                            Please enter description here.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category">Category</label>
+                        <textarea class="form-control is-invalid" id="category" placeholder="Required Category" required></textarea>
+                        <div class="invalid-feedback">
+                            Please enter a category here.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="urlImage">Title</label>
+                        <textarea class="form-control is-invalid" id="urlImage" placeholder="Required urlImage" required></textarea>
+                        <div class="invalid-feedback">
+                            Please enter a valid url.
+                        </div>
+                    </div>
+
+                    <button id="add" class="btn btn-outline-primary d-inline-block" type="submit">Add</button>
+                    <button id="send" class="btn btn-outline-primary d-none" type="submit">Send</button>
+                    <button id="del" class="btn btn-outline-warning">Delete</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- start footer -->
 
