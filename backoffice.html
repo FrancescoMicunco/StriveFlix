@@ -92,11 +92,11 @@
             <div class="col-6">
                 <h2 id="title" class="text-light mt-5 d-inline-block">BACKOFFICE --- </h2>
 
-
-                <form class="need-validation">
+                <div class="alert d-none" role="alert"></div>
+                <form id="form" class="need-validation" novalidate>
                     <div class="mb-3">
                         <label for="name">Title</label>
-                        <textarea class="form-control is-invalid" id="name" placeholder="Required Title" required></textarea>
+                        <textarea class="form-control " id="name" placeholder="Required Title" required></textarea>
                         <div class="invalid-feedback">
                             Please enter a title here.
                         </div>
@@ -104,7 +104,7 @@
 
                     <div class="mb-3">
                         <label for="description">Description</label>
-                        <textarea class="form-control is-invalid" id="description" placeholder="Required Description" required></textarea>
+                        <textarea class="form-control " id="description" placeholder="Required Description" required></textarea>
                         <div class="invalid-feedback">
                             Please enter description here.
                         </div>
@@ -112,7 +112,7 @@
 
                     <div class="mb-3">
                         <label for="category">Category</label>
-                        <textarea class="form-control is-invalid" id="category" placeholder="Required Category" required></textarea>
+                        <textarea class="form-control " id="category" placeholder="Required Category" required></textarea>
                         <div class="invalid-feedback">
                             Please enter a category here.
                         </div>
@@ -120,15 +120,15 @@
 
                     <div class="mb-3">
                         <label for="urlImage">Title</label>
-                        <textarea class="form-control is-invalid" id="urlImage" placeholder="Required urlImage" required></textarea>
+                        <textarea class="form-control " id="urlImage" type="url" placeholder="Required urlImage" required></textarea>
                         <div class="invalid-feedback">
                             Please enter a valid url.
                         </div>
                     </div>
 
-                    <button id="add" class="btn btn-outline-primary d-inline-block" type="submit">Add</button>
-                    <button id="send" class="btn btn-outline-primary " type="submit">Send</button>
-                    <button id="del" class="btn btn-outline-warning" type="button">Delete</button>
+                    <button id="add" class="btn btn-outline-primary d-inline-block" type="submit">Add new film</button>
+                    <button id="send" class="btn btn-outline-primary " type="submit">Send Edit</button>
+
 
                 </form>
 
@@ -194,18 +194,45 @@
 
     </div>
     <script>
-        const idItem = "61854b7cf642e00015e5b9c2"
-            //new.URLSearchParams(window.Location.search)
+        // disabling form uncorrectly validate
+        const myToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ-KPY-ZzrDFCnx24XJdM4Cko"
+        const genreItem = new URLSearchParams(window.location.search).get('movie-genre')
+        let urls = "https://striveschool-api.herokuapp.com/api/movies/"
+
+        const idItem = new URLSearchParams(window.location.search).get('id')
         let title = document.getElementById("title")
         let btnAdd = document.getElementById("add")
         let btnSend = document.getElementById("send")
         let btnDel = document.getElementById("del")
-        let url = "https://striveschool-api.herokuapp.com/api/movies/"
+
+
+        let form = document.getElementById("form")
+        form.addEventListener("submit", function(e) {
+            if (form.checkValidity() === false) {
+                e.preventDefault();
+                e.stopPropagation();
+                alert("Please complete correctly form")
+            } else {
+                e.preventDefault();
+                form.classList.add("was-validate");
+                addNewFilm()
+            }
+
+        })
 
         window.onload = () => {
+            const myToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ - KPY - ZzrDFCnx24XJdM4Cko "
+            const genreItem = new URLSearchParams(window.location.search).get('movie-genre')
+            let urls = "https://striveschool-api.herokuapp.com/api/movies/"
+            const idItem = new URLSearchParams(window.location.search).get('id')
+            let title = document.getElementById("title")
+            let btnAdd = document.getElementById("add")
+            let btnSend = document.getElementById("send")
+            let btnDel = document.getElementById("del")
             if (idItem) {
                 title.innerText += " edit film"
-                btnAdd.classList.toggle("d-none")
+                btnAdd.classList.remove("d-inline-block")
+                btnAdd.classList.add("d-none")
 
             } else {
                 title.innerText += " add new film"
@@ -213,64 +240,47 @@
             }
         }
 
-        const newFilm = {
-            name: document.getElementById("name").value,
-            description: document.getElementById("description").value,
-            category: document.getElementById("category").value,
-            imageUrl: document.getElementById("urlImage").value
-        }
-
-        btnDel.onclick = async() => {
+        /* btnDel.onclick = async() => {
             const res = await fetch(url + idItem, {
                 "method": "DELETE",
                 headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ-KPY-ZzrDFCnx24XJdM4Cko",
+                    "Authorization": ,
                     'Content-Type': 'application/json'
                 }
             })
         }
+ */
 
-        // PUT section  
 
+        // POST PUT section
 
-        btnSend.onclick = async(item) => {
-            const newFilm = await {
+        const addNewFilm = async() => {
+            const url = idItem ? urls + idItem : urls;
+            const newFilm = {
                 name: document.getElementById("name").value,
                 description: document.getElementById("description").value,
                 category: document.getElementById("category").value,
                 imageUrl: document.getElementById("urlImage").value
             }
-            const res = await fetch(url + idItem, {
-                "method": "PUT",
-                body: JSON.stringify(newFilm),
-                headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ-KPY-ZzrDFCnx24XJdM4Cko",
-                    'Content-Type': 'application/json'
-                }
-            })
-        }
 
-
-        // POST section
-
-        btnAdd.onclick = async() => {
-            const newFilm = await {
-                name: document.getElementById("name").value,
-                description: document.getElementById("description").value,
-                category: document.getElementById("category").value,
-                imageUrl: document.getElementById("urlImage").value
+            try {
+                const res = await fetch(url, {
+                    method: idItem ? "PUT" : "POST",
+                    body: JSON.stringify(newFilm),
+                    headers: {
+                        "Authorization": myToken,
+                        'Content-Type': 'application/JSON'
+                    },
+                })
+                if (res.ok) {
+                    const newMovieAdded = await res.json()
+                    const alert = document.querySelector(".alert")
+                    alert.className = "alert alert-success"
+                    alert.innerHTML = idItem ? `Success! ${newMovieAdded.name} correctly edited` : `Success! Correctly added ${newMovieAdded.name}`
+                } else throw new Error("Failed to add new Movie")
+            } catch (error) {
+                console.log(error)
             }
-            const res = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ-KPY-ZzrDFCnx24XJdM4Cko",
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newFilm)
-            })
-            const element = await res.json()
-            console.log(element)
-            alert = ("Film correctly added")
         }
     </script>
 
