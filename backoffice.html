@@ -91,7 +91,9 @@
         <div class="row text-center">
             <div class="col-6">
                 <h2 id="title" class="text-light mt-5 d-inline-block">BACKOFFICE --- </h2>
-                <form class="was-validated">
+
+
+                <form class="need-validation">
                     <div class="mb-3">
                         <label for="name">Title</label>
                         <textarea class="form-control is-invalid" id="name" placeholder="Required Title" required></textarea>
@@ -126,9 +128,10 @@
 
                     <button id="add" class="btn btn-outline-primary d-inline-block" type="submit">Add</button>
                     <button id="send" class="btn btn-outline-primary " type="submit">Send</button>
-                    <button id="del" class="btn btn-outline-warning">Delete</button>
+                    <button id="del" class="btn btn-outline-warning" type="button">Delete</button>
 
                 </form>
+
             </div>
         </div>
     </div>
@@ -191,12 +194,13 @@
 
     </div>
     <script>
-        const idItem = new URLSearchParams(window.Location.search)
+        const idItem = "61854b7cf642e00015e5b9c2"
+            //new.URLSearchParams(window.Location.search)
         let title = document.getElementById("title")
         let btnAdd = document.getElementById("add")
         let btnSend = document.getElementById("send")
         let btnDel = document.getElementById("del")
-        let url = "https://striveschool-api.herokuapp.com/api/movies"
+        let url = "https://striveschool-api.herokuapp.com/api/movies/"
 
         window.onload = () => {
             if (idItem) {
@@ -216,11 +220,11 @@
             imageUrl: document.getElementById("urlImage").value
         }
 
-        btnDel.onclick = async(idItem) => {
+        btnDel.onclick = async() => {
             const res = await fetch(url + idItem, {
                 "method": "DELETE",
                 headers: {
-                    Authorization: "",
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyOGQ1MWFhY2FhMjAwMTU1MmExNzUiLCJpYXQiOjE2MzYxMDYzMDUsImV4cCI6MTYzNzMxNTkwNX0.coJwGNfHZHba2EmsENjQ-KPY-ZzrDFCnx24XJdM4Cko",
                     'Content-Type': 'application/json'
                 }
             })
@@ -230,7 +234,12 @@
 
 
         btnSend.onclick = async(item) => {
-
+            const newFilm = await {
+                name: document.getElementById("name").value,
+                description: document.getElementById("description").value,
+                category: document.getElementById("category").value,
+                imageUrl: document.getElementById("urlImage").value
+            }
             const res = await fetch(url + idItem, {
                 "method": "PUT",
                 body: JSON.stringify(newFilm),
@@ -245,7 +254,7 @@
         // POST section
 
         btnAdd.onclick = async() => {
-            const newFilm = {
+            const newFilm = await {
                 name: document.getElementById("name").value,
                 description: document.getElementById("description").value,
                 category: document.getElementById("category").value,
@@ -260,9 +269,18 @@
                 body: JSON.stringify(newFilm)
             })
             const element = await res.json()
+            console.log(element)
             alert = ("Film correctly added")
         }
     </script>
+
+
+
+
+
+
+
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
